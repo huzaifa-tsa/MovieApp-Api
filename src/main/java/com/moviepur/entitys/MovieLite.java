@@ -1,5 +1,9 @@
 package com.moviepur.entitys;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +13,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "movie")
 public class MovieLite {
-	
+
+	@Id
 	private int id;
 	private String name,image_url;
 	

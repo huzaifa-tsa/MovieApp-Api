@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.moviepur.entitys.MovieLite;
-import com.moviepur.servies.MovieServiceInterface;
+import com.moviepur.servies.AllService;
 
 @RestController
 @RequestMapping("/movie")
@@ -15,11 +15,11 @@ import com.moviepur.servies.MovieServiceInterface;
 public class MovieController {
 
 	@Autowired
-	private MovieServiceInterface movieService;
+	private AllService allService;
 	
-	@GetMapping("")
+	@GetMapping
 	public List<MovieLite> getMovie() {
-		return movieService.getMovie_vs_Series(true);
+		return allService.getByType("Movie");
 	}
 	
 }
