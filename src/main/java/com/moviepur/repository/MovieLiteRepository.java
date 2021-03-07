@@ -32,4 +32,6 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE genre in :genre) ORDER BY id DESC")
 	public List<MovieLite> findAllByGenreDesc(@Param("genre") Set<String> genre);
 
+	public List<MovieLite> findAllByNameLikeIgnoreCase(String movieName);
+
 }

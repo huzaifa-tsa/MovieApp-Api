@@ -1,7 +1,5 @@
 package com.moviepur.servies.impl;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -55,7 +53,7 @@ public class AllServiceImpl implements AllService {
 		List<MovieLite> getByNameDatabase = movieLiteRepository.findAllByName(movieName);
 		if(getByNameDatabase !=null && getByNameDatabase.size()>0)
 			return getByNameDatabase;
-		*/
+		
 		
 		List<MovieLite> same_name_movie = new ArrayList<MovieLite>();
 		movieName = movieName.toLowerCase();
@@ -85,6 +83,8 @@ public class AllServiceImpl implements AllService {
 			}
 		}
 		return same_name_movie;
+		*/
+		return movieLiteRepository.findAllByNameLikeIgnoreCase(movieName);
 	}
 
 }
