@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 public class MoviepurException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private List<String> errors = new ArrayList<>();
-	private int code = -1;
-	private String developerMessage;
-	private int errorCodeValue = -1;
+	private  List<String> errors = new ArrayList<>();
+	private  int code = -1;
+	private  String developerMessage;
+	private  int errorCodeValue = -1;
 	public final static int SUCCESSFUL_REQUEST = 200;
 	public final static int SUCCESS = 201;
 	public final static int NO_CONTENT = 204;

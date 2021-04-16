@@ -28,7 +28,6 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getBetweenRating(String name,float min, float max) {
-		System.out.println(name);
 		return movieLiteRepository.getAcouradingToRating(name,min, max);
 	}
 
