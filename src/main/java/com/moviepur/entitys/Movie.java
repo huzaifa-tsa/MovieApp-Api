@@ -34,7 +34,9 @@ public class Movie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
-	private String name, image_url, description;
+	private String name, image_url;
+	@Column(name="CONTENT", length=1000)
+	private String description;
 	private LocalDate releaseDate;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
