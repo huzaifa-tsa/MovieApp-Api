@@ -11,7 +11,7 @@ public interface AllService {
 
 	public List<MovieLite> getByType(String type);
 
-	public List<MovieLite> getByGenre(Set<String> genre);
+	public List<MovieLite> getByGenre(String genre);
 
 	public List<MovieLite> getBetweenRating(String name,float min, float max);
 
@@ -20,5 +20,9 @@ public interface AllService {
 	public List<MovieLite> getByLanguage(String language);
 
 	public List<MovieLite> getByReleaseYear(int startDate, int endDate);
+
+	public Set<String> getAllGenres();
+
+	public Set<String> getAllLanguages();
 
 }

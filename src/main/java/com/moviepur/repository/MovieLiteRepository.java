@@ -29,9 +29,21 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE release_date >= :startDate and release_date <= :endDate ORDER BY release_date DESC")
 	public List<MovieLite> findAllByReleaseYear(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE genre in :genre) ORDER BY id DESC")
-	public List<MovieLite> findAllByGenreDesc(@Param("genre") Set<String> genre);
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE genre = :genre) ORDER BY id DESC")
+	public List<MovieLite> findAllByGenreDesc(@Param("genre") String genre);
 
 	public List<MovieLite> findAllByNameLikeIgnoreCase(String movieName);
+	
+	@Query(nativeQuery = true, value = "SELECT  DISTINCT genre  FROM  genre")
+	public Set<String> getAllGenres();
+
+	@Query(nativeQuery = true, value = "SELECT  DISTINCT language  FROM  language")
+	public Set<String> getAllLanguages();
+	
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie where LOWER(name) LIKE %:name%")
+	public List<MovieLite> getAllByNameContaines(@Param("name") String name);
+	
+	
+	
 
 }

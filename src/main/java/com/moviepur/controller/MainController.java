@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.moviepur.entitys.Movie;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.servies.MainService;
@@ -24,7 +24,7 @@ import com.moviepur.servies.MainService;
 public class MainController {
 
 	@Autowired
-	MainService mainService;
+	private  MainService mainService;
 
 	@GetMapping
 	public List<Movie> getAllMovie() {
@@ -46,13 +46,13 @@ public class MainController {
 		return mainService.add_Movie(movie);
 	}
 
-	@PutMapping("update")
-	public Movie updateMovie(@RequestParam("id") int id, @RequestBody Movie movie) throws MoviepurException {
+	@PutMapping("update/{movieId}")
+	public Movie updateMovie(@PathVariable("movieId") int id, @RequestBody Movie movie) throws MoviepurException {
 		return mainService.update_Movie(id, movie);
 	}
 
-	@PutMapping("update/download")
-	public Movie updateDowloadLink(@RequestParam("id") int id, @RequestBody Map<String, String> download_Links)
+	@PutMapping("update/download/{movieId}")
+	public Movie updateDowloadLink(@PathVariable("movieId") int id, @RequestBody Map<String, String> download_Links)
 			throws MoviepurException {
 		return mainService.update_Downloads_Links(id, download_Links);
 	}

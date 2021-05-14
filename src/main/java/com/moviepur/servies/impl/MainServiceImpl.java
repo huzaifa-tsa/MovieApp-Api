@@ -15,7 +15,7 @@ import com.moviepur.servies.MainService;
 public class MainServiceImpl implements MainService {
 
 	@Autowired
-	MovieRepository movieRepository;
+	private	MovieRepository movieRepository;
 
 	@Override
 	public List<Movie> getAllMovie() {
@@ -43,8 +43,7 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public Movie add_Movie(Movie movie) throws MoviepurException {
 		try {
-			movieRepository.save(movie);
-			return movie;
+				return movieRepository.save(movie);
 		} catch (Exception e) {
 			throw new MoviepurException(500, "Internal Server Error");
 		}
@@ -55,17 +54,14 @@ public class MainServiceImpl implements MainService {
 			Movie movie = getById(id);
 			movieEdit.setId(movie.getId());
 			movieEdit.setDownload_link(movie.getDownload_link());
-			movieRepository.save(movie);
-			return movie;		
+			return movieRepository.save(movieEdit);
 	}
 
 	@Override
 	public Movie update_Downloads_Links(int id, Map<String, String> download_Links) throws MoviepurException {
 		Movie movie = getById(id);
 		movie.setDownload_link(download_Links);
-		movieRepository.save(movie);
-		return movie;
-
+		return movieRepository.save(movie);
 	}
 
 	@Override

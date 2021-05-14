@@ -42,7 +42,7 @@ public class AllServiceImpl implements AllService {
 	}
 	
 	@Override
-	public List<MovieLite> getByGenre(Set<String> genre) {
+	public List<MovieLite> getByGenre(String genre) {
 		return movieLiteRepository. findAllByGenreDesc(genre); 
 	}
 
@@ -83,7 +83,17 @@ public class AllServiceImpl implements AllService {
 		}
 		return same_name_movie;
 		*/
-		return movieLiteRepository.findAllByNameLikeIgnoreCase(movieName);
+		return movieLiteRepository.getAllByNameContaines(movieName.toLowerCase());
+	}
+
+	@Override
+	public Set<String> getAllGenres() {
+		return movieLiteRepository.getAllGenres();
+	}
+
+	@Override
+	public Set<String> getAllLanguages() {
+		return movieLiteRepository.getAllLanguages();
 	}
 
 }
