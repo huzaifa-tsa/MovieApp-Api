@@ -27,13 +27,13 @@ public class AllServiceImpl implements AllService {
 	}
 
 	@Override
-	public List<MovieLite> getBetweenRating(String name,float min, float max) {
-		return movieLiteRepository.getAcouradingToRating(name,min, max);
+	public List<MovieLite> getBetweenRating(String raterName,float min, float max) {
+		return movieLiteRepository.getAcouradingToRating(raterName.toLowerCase(),min, max);
 	}
 
 	@Override
 	public List<MovieLite> getByLanguage(String language) {
-		return movieLiteRepository.findAllByLanguage(language);
+		return movieLiteRepository.findAllByLanguage(language.toLowerCase());
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class AllServiceImpl implements AllService {
 	
 	@Override
 	public List<MovieLite> getByGenre(String genre) {
-		return movieLiteRepository. findAllByGenreDesc(genre); 
+		return movieLiteRepository. findAllByGenreDesc(genre.toLowerCase()); 
 	}
 
 	@Override
