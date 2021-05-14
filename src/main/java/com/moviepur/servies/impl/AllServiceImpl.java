@@ -1,5 +1,6 @@
 package com.moviepur.servies.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getByReleaseYear(int startDate, int endDate) {
-		return movieLiteRepository.findAllByReleaseYear(startDate+"-01-01",endDate+"-01-01");
+		return movieLiteRepository.findAllByReleaseYear(LocalDate.parse(startDate+"-01-01"),LocalDate.parse(endDate+"-01-02"));
 	}
 	
 	@Override
