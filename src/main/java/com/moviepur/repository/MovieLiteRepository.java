@@ -20,7 +20,7 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE type=:type ORDER BY id DESC ")
 	public List<MovieLite> findAllByType(@Param("type") String type);
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url  FROM movie LEFT JOIN rating ON movie.id = rating.id WHERE LOWER(rating.name) =:name  AND rating.value BETWEEN :min and :max  GROUP BY movie.id ORDER BY rating.value DESC")
+	@Query(nativeQuery = true, value = "SELECT m.id,m.name,m.image_url FROM movie as m LEFT JOIN rating as r ON m.id = r.id WHERE LOWER(r.name) =:name  AND r.value BETWEEN :min and :max  GROUP BY m.id ORDER BY r.value DESC")
 	public List<MovieLite> getAcouradingToRating(@Param("name") String name, @Param("min") float min,
 			@Param("max") float max);
 
