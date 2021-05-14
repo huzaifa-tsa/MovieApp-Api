@@ -19,7 +19,7 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE type=:type ORDER BY id DESC ")
 	public List<MovieLite> findAllByType(@Param("type") String type);
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM rating WHERE value BETWEEN :min AND :max AND LOWER(NAME) = :name ORDER BY value DESC )")
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT ON id FROM rating WHERE value BETWEEN :min AND :max AND LOWER(NAME) = :name ORDER BY value DESC )")
 	public List<MovieLite> getAcouradingToRating(@Param("name") String name, @Param("min") float min,
 			@Param("max") float max);
 
@@ -31,8 +31,6 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre) ORDER BY id DESC")
 	public List<MovieLite> findAllByGenreDesc(@Param("genre") String genre);
-
-	public List<MovieLite> findAllByNameLikeIgnoreCase(String movieName);
 	
 	@Query(nativeQuery = true, value = "SELECT  DISTINCT genre  FROM  genre")
 	public Set<String> getAllGenres();
