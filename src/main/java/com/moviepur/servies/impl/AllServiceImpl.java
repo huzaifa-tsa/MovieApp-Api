@@ -39,7 +39,7 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getByReleaseYear(int startDate, int endDate) {
-		return movieLiteRepository.findAllByReleaseYear(LocalDate.parse(startDate+"-01-01"),LocalDate.parse(endDate+"-01-02"));
+		return movieLiteRepository.findAllByReleaseYear(LocalDate.parse(startDate+"-01-01"),LocalDate.parse((endDate+1)+"-01-02"));
 	}
 	
 	@Override
