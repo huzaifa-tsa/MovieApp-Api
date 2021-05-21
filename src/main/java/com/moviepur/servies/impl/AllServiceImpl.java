@@ -88,6 +88,7 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<Object> getFormatedDateForAndroid() {
+		System.out.println(movieLiteRepository.getAllIndustryByGenre("action"));
 		Set<String> genres =	getAllGenres();
 		List<Object> result = new LinkedList<>();
 		genres.forEach(x -> {
