@@ -83,7 +83,7 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getByGenreAndIndustryName(String genre, String industryName) {
-		return movieLiteRepository.getByGenreAndIndustryName(genre,industryName);
+		return movieLiteRepository.getByGenreAndIndustryName(genre.toLowerCase(),industryName);
 	}
 
 	@Override
