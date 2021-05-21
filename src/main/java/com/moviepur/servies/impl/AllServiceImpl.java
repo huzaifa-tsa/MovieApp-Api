@@ -93,8 +93,9 @@ public class AllServiceImpl implements AllService {
 		genres.forEach(x -> {
 			Map<String, Object> map = new HashMap<>(2);
 			map.put("title", x);
-			List<String> list =movieLiteRepository.getAllIndustryByGenre(x);
+			Set<String> list =movieLiteRepository.getAllIndustryByGenre(x);
 			System.out.println(list);
+			System.out.println(movieLiteRepository.getAllIndustryByGenre(x));
 			map.put("data", list);
 			result.add(map);
 		});
