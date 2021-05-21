@@ -2,6 +2,7 @@ package com.moviepur.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,8 +42,35 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie where LOWER(name) LIKE %:name%")
 	public List<MovieLite> getAllByNameContaines(@Param("name") String name);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id = :movieId")
+	public Optional<MovieLite> getById(@Param("movieId") int movieId);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie ORDER BY release_date DESC LIMIT 5")
+	public List<MovieLite> getByLatestReleaseDate();
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE industry_name = :industryName")
+	public List<MovieLite> getByIndustryName(@Param("industryName") String industryName);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre) And industry_name = :industryName ORDER BY id DESC" )
+	public List<MovieLite> getByGenreAndIndustryName(@Param("genre") String genre,@Param("industryName")  String industryName);
+
+	@Query(nativeQuery = true, value = "SELECT DISTINCT industry_name  FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre)" )
+	public List<String> getAllIndustryByGenre(@Param("genre") String genre);
 	
-	
-	
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url  FROM movie ORDER BY RAND ( )  LIMIT 3" )
+	public List<MovieLite> getRandomMovie();
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url  FROM movie AS m RIGHT JOIN user_likes_movie AS u ON m.id = u.likes_movie_id  GROUP BY u.likes_movie_id  ORDER BY COUNT(u.likes_movie_id)  DESC LIMIT 5" )
+	public List<MovieLite> getMostLikeMovie();
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie where LOWER(directorys) LIKE %:name%")
+	public List<MovieLite> getByDirecterName(@Param("name") String name);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie where LOWER(writers) LIKE %:name%")
+	public List<MovieLite> getByWriterName(@Param("name") String name);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url FROM movie where LOWER(stars) LIKE %:name%")
+	public List<MovieLite> getByStarName(@Param("name") String name);
 
 }

@@ -2,24 +2,44 @@ package com.moviepur.servies.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moviepur.entitys.Movie;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.repository.MovieRepository;
+import com.moviepur.servies.FilmSeriesService;
 import com.moviepur.servies.MainService;
+import com.moviepur.servies.PrimeryKeySeqService;
+import com.moviepur.servies.UserService;
+
 @Service
 public class MainServiceImpl implements MainService {
 
 	@Autowired
-	private	MovieRepository movieRepository;
+	private MovieRepository movieRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PrimeryKeySeqService primeryKeySeqService;
+	
+	@Autowired
+	private FilmSeriesService filmSeriesService;
+
+	private static final String ADMINPASSWORD = "$2a$10$YST7qlq5oKVTSZv9/tSlrOaNnUy1Wc./dzmeC1Ung6XSnDx1bvij6";
 
 	@Override
 	public List<Movie> getAllMovie() {
-		return movieRepository.findAll();
+		return movieRepository.getAll();
 	}
 
 	@Override
@@ -33,45 +53,63 @@ public class MainServiceImpl implements MainService {
 	}
 
 	@Override
-	public Movie getById(int movieid) throws MoviepurException {
-		Optional<Movie> optional = movieRepository.findById(movieid);
-		if (optional.isPresent())
-			return optional.get();
-		throw new MoviepurException(404, "Movie Not Found");
+	public Movie getById(int movieId) throws MoviepurException {
+		return movieRepository.getById(movieId).orElseThrow(() -> new MoviepurException(404, "Movie Not Found"));
 	}
 
 	@Override
-	public Movie add_Movie(Movie movie) throws MoviepurException {
+	public Movie addMovie(Movie movie) throws MoviepurException {
 		try {
-				return movieRepository.save(movie);
+			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
+			return movieRepository.save(movie);
 		} catch (Exception e) {
 			throw new MoviepurException(500, "Internal Server Error");
 		}
 	}
 
 	@Override
-	public Movie update_Movie(int id, Movie movieEdit) throws MoviepurException {
-			Movie movie = getById(id);
-			movieEdit.setId(movie.getId());
-			movieEdit.setDownload_link(movie.getDownload_link());
-			return movieRepository.save(movieEdit);
+	public Movie updateMovie(int id, Movie movieEdit) throws MoviepurException {
+		Movie movie = getById(id);
+		movieEdit.setId(movie.getId());
+		return movieRepository.save(movieEdit);
 	}
 
 	@Override
-	public Movie update_Downloads_Links(int id, Map<String, String> download_Links) throws MoviepurException {
+	public Movie updateMovieSome(int id, Movie movieEdit) throws MoviepurException {
 		Movie movie = getById(id);
-		movie.setDownload_link(download_Links);
+		movieEdit.setId(movie.getId());
+		movieEdit.setDownload_link(movie.getDownload_link());
+		return movieRepository.save(movieEdit);
+	}
+
+	@Override
+	public Movie updateDownloadsLinks(int id, Map<String, String> downloadLinks) throws MoviepurException {
+		Movie movie = getById(id);
+		movie.setDownload_link(downloadLinks);
 		return movieRepository.save(movie);
 	}
 
 	@Override
 	public String delete(int movieId, String password) throws MoviepurException {
-		if (password.equals("moviepur$$143")) {
+		if (passwordEncoder.matches(password, ADMINPASSWORD)) {
 			Movie movie = getById(movieId);
 			movieRepository.delete(movie);
 			return "success";
 		}
-		throw new MoviepurException(401,"password is wrong");
+		throw new MoviepurException(401, "password is wrong");
+	}
+
+	@Override
+	public String downloadJson(String password) throws MoviepurException {
+		if (passwordEncoder.matches(password, ADMINPASSWORD)) {
+			try {
+				ObjectMapper json = new ObjectMapper();
+				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"+json.writeValueAsString(userService.getAllUser()+"\n\n\n\n\n\n"+json.writeValueAsString(filmSeriesService.getAll()));
+			} catch (JsonProcessingException e) {
+				return "failed";
+			}
+		}
+		throw new MoviepurException(401, "password is wrong");
 	}
 
 }

@@ -19,49 +19,94 @@ import com.moviepur.servies.AllService;
 public class AllController {
 
 	@Autowired
-	private AllService mainService;
+	private AllService allService;
 
 	@GetMapping
 	public List<MovieLite> welcome() {
-		return mainService.getAllMovieLite();
+		return allService.getAllMovieLite();
 	}
 	
 	@GetMapping("/getAllGenres")
 	public Set<String> getAllGenres(){
-		return mainService.getAllGenres();
+		return allService.getAllGenres();
 	}
 	
 	@GetMapping("/getAllLanguages")
 	public Set<String> getAllLanguages(){
-		return mainService.getAllLanguages();
+		return allService.getAllLanguages();
+	}
+	
+	@GetMapping("/getFormatedDateForAndroid")
+	public List<Object> getFormatedDateForAndroid(){
+		return allService.getFormatedDateForAndroid();
 	}
 	
 	// Get All With Gener
 	@GetMapping("/genre/{genre}")
 	public List<MovieLite> getByGenre(@PathVariable("genre") String genre) {
-		return mainService.getByGenre(genre);
+		return allService.getByGenre(genre);
 	}
 
 	// Get Only Some Movie and web series those Have Same Name
 	@GetMapping("/name/{name}")
 	public List<MovieLite> getByName(@PathVariable("name") String name) {
-		return mainService.getByName(name);
+		return allService.getByName(name);
 	}
 
 	// Get By Language
 	@GetMapping("/language/{language}")
 	public List<MovieLite> getByLanguage(@PathVariable("language") String language) {
-		return mainService.getByLanguage(language);
+		return allService.getByLanguage(language);
 	}
 
 	// Get rating
 	@GetMapping("/rating/{raterName}/{min}/{max}")
 	public List<MovieLite> getBetweenRating(@PathVariable("raterName") String raterName ,@PathVariable("min") int min,@PathVariable("max") int max) {
-		return mainService.getBetweenRating(raterName,(float) min, (float) max);
+		return allService.getBetweenRating(raterName,(float) min, (float) max);
 	}
 	
 	@GetMapping("/releaseDate/{startYear}/{endYear}")
 	public List<MovieLite> getByReleaseYear(@PathVariable("startYear") int startYear,@PathVariable("endYear") int endYear) {
-		return mainService.getByReleaseYear(startYear,endYear);
+		return allService.getByReleaseYear(startYear,endYear);
+	}
+	
+	@GetMapping("/getByLatestReleaseDate")
+	public List<MovieLite> getByLatestReleaseDate(){
+		return allService.getByLatestReleaseDate();
+	}
+	
+	@GetMapping("/getByIndustryName/{industryName}")
+	public List<MovieLite> getByIndustryName(@PathVariable String  industryName){
+		return allService.getByIndustryName(industryName);
+	}
+	
+	@GetMapping("/getByGenreAndIndustryName/{genre}/{industryName}")
+	public List<MovieLite> getByGenreAndIndustryName(@PathVariable String genre, @PathVariable String  industryName){
+		return allService.getByGenreAndIndustryName(genre,industryName);
+	}
+	
+	@GetMapping("/getRandomMovie")
+	public List<MovieLite> getRandomMovie(){
+		return allService.getRandomMovie();
+	}
+	
+	@GetMapping("/getMostLikeMovie")
+	public List<MovieLite> getMostLikeMovie(){
+		return allService.getMostLikeMovie();
+	}
+	
+	@GetMapping("/getByDirectors/{name}")
+	public List<MovieLite> getByDirectors(@PathVariable String name){
+		return allService.getByPerson(1,name);
+	}
+	
+	@GetMapping("/getByWriter/{name}")
+	public List<MovieLite> getByWriter(@PathVariable String name){
+		return allService.getByPerson(2,name);
+	}
+	
+	@GetMapping("/getByStar/{name}")
+	public List<MovieLite> getByStar(@PathVariable String name){
+		return allService.getByPerson(3,name);
 	}
 }

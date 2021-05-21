@@ -14,11 +14,16 @@ public interface MainService {
 
 	public Movie getById(int movieid) throws MoviepurException;
 
-	public Movie add_Movie(Movie movie) throws MoviepurException;
+	public Movie addMovie(Movie movie) throws MoviepurException;
 
-	public Movie update_Movie(int id, Movie movie) throws MoviepurException;
+	public Movie updateMovie(int id, Movie movie) throws MoviepurException;
 
-	public Movie update_Downloads_Links(int id, Map<String, String> download_Links) throws MoviepurException;
+	public Movie updateMovieSome(int id, Movie movie) throws MoviepurException;
+	
+	public Movie updateDownloadsLinks(int id, Map<String, String> downloadLinks) throws MoviepurException;
 
 	public String delete(int movieId, String password)throws MoviepurException;
+
+	public String downloadJson(String password) throws MoviepurException;
+
 }

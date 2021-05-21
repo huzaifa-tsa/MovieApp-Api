@@ -1,9 +1,13 @@
 package com.moviepur.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,18 +47,23 @@ public class MainController {
 
 	@PostMapping("/add")
 	public Movie addOneMovie(@RequestBody Movie movie) throws MoviepurException {
-		return mainService.add_Movie(movie);
+		return mainService.addMovie(movie);
 	}
 
 	@PutMapping("update/{movieId}")
 	public Movie updateMovie(@PathVariable("movieId") int id, @RequestBody Movie movie) throws MoviepurException {
-		return mainService.update_Movie(id, movie);
+		return mainService.updateMovie(id, movie);
+	}
+	
+	@PutMapping("updateSomeData/{movieId}")
+	public Movie updateMovieSome(@PathVariable("movieId") int id, @RequestBody Movie movie) throws MoviepurException {
+		return mainService.updateMovieSome(id, movie);
 	}
 
 	@PutMapping("update/download/{movieId}")
 	public Movie updateDowloadLink(@PathVariable("movieId") int id, @RequestBody Map<String, String> download_Links)
 			throws MoviepurException {
-		return mainService.update_Downloads_Links(id, download_Links);
+		return mainService.updateDownloadsLinks(id, download_Links);
 	}
 
 	@DeleteMapping("/deletewithpermission/{movieId}/{password}")
@@ -62,4 +71,20 @@ public class MainController {
 		return mainService.delete(movieId, password);
 	}
 
+	@GetMapping("/downloadJson/{password}")
+	public ResponseEntity<Object> downloadJson(@PathVariable String password) throws MoviepurException {
+		try {
+			byte[] customerJsonBytes = mainService.downloadJson(password).getBytes();
+			
+			return ResponseEntity
+					.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=DATA_"+LocalDateTime.now()+".json")
+					.contentType(MediaType.APPLICATION_JSON)
+					.contentLength(customerJsonBytes.length)
+					.body(customerJsonBytes);
+		}catch (Exception e) {
+			throw new MoviepurException(409,e.getLocalizedMessage());
+		}
+                
+	}
 }
