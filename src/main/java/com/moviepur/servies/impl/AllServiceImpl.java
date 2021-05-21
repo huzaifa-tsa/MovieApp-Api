@@ -95,7 +95,7 @@ public class AllServiceImpl implements AllService {
 			map.put("title", x);
 			Set<String> list =movieLiteRepository.getAllIndustryByGenre(x);
 			System.out.println(list);
-			System.out.println(movieLiteRepository.getAllIndustryByGenre(x));
+			System.out.println(movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()));
 			map.put("data", list);
 			result.add(map);
 		});
