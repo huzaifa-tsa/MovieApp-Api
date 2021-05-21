@@ -88,7 +88,6 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<Object> getFormatedDateForAndroid() {
-		System.out.println(movieLiteRepository.getAllIndustryByGenre("action"));
 		Set<String> genres =	getAllGenres();
 		List<Object> result = new LinkedList<>();
 		genres.forEach(x -> {
@@ -97,6 +96,7 @@ public class AllServiceImpl implements AllService {
 			map.put("data", movieLiteRepository.getAllIndustryByGenre(x));
 			result.add(map);
 		});
+		System.out.println(result);
 		return result;
 	}
 
