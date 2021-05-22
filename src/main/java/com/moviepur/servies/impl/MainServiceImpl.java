@@ -104,7 +104,7 @@ public class MainServiceImpl implements MainService {
 		if (passwordEncoder.matches(password, ADMINPASSWORD)) {
 			try {
 				ObjectMapper json = new ObjectMapper();
-				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"+json.writeValueAsString(userService.getAllUser()+"\n\n\n\n\n\n"+json.writeValueAsString(filmSeriesService.getAll()));
+				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"+json.writeValueAsString(userService.getAllUser())+"\n\n\n\n\n\n"+json.writeValueAsString(filmSeriesService.getAll());
 			} catch (JsonProcessingException e) {
 				return "failed";
 			}
