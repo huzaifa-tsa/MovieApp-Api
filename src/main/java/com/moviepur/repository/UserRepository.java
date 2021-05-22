@@ -15,7 +15,7 @@ import com.moviepur.entitys.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	@Query(nativeQuery = true, value = "SELECT * FROM user ORDER BY id DESC")
+	@Query(nativeQuery = true, value = "SELECT * FROM user ")
 	public List<User> getAllUser();
 
 	@Query(nativeQuery = true, value = "SELECT * FROM user WHERE token = :token")
