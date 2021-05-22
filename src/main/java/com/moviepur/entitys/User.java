@@ -33,12 +33,13 @@ public class User {
 	@ManyToMany
 	private Set<MovieLite> likesMovie = new LinkedHashSet<>();
 
-	public User(int id, String token, String password, LocalDate createdDate) {
+	public User(int id, String token, String password, LocalDate createdDate,LocalDate updateDate) {
 		super();
 		this.id = id;
 		this.token = token;
 		this.password = password;
 		this.createdDate = createdDate;
+		this.updateDate =updateDate;
 	}
 
 }
