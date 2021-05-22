@@ -15,7 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="user")
+@Table(name="myuser")
 @Getter
 @Setter
 @ToString
@@ -24,6 +24,7 @@ public class User {
 
 	@Id
 	private int id;
+	
 	private String token;	
 	private String password;
 	private LocalDate createdDate;
