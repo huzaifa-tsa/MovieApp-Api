@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean userPresent(String token) {
-		return userRepository.checkUserIsPresent(token)==1 ;
+		return userRepository.checkUserIsPresent(token) ;
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	public Optional<User> getByToken(String token);
 
 	@Query(nativeQuery = true, value = "SELECT EXISTS(SELECT * from myuser WHERE token = :token)")
-	public int checkUserIsPresent(String token);
+	public boolean checkUserIsPresent(String token);
 
 	@Query(nativeQuery = true, value = "SELECT id , token, created_date, update_date FROM myuser WHERE update_date <= :date ORDER BY update_date DESC")
 	public List<Map<String, Object>> getAllUserNotUpdateLastMonths(@Param("date") LocalDate minusMonths);
