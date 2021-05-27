@@ -50,7 +50,7 @@ public class Movie {
 	
 	private String runTime;
 
-	private String directorys;
+	private String directors;
 	private String writers;
 	private String stars;
 		
