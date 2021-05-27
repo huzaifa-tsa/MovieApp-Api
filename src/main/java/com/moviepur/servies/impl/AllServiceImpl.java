@@ -94,9 +94,9 @@ public class AllServiceImpl implements AllService {
 			Map<String, Object> map = new HashMap<>(2);
 			map.put("title", x);
 			List<Object> test = new LinkedList<>();
-			Map<String, Object> map = new HashMap<>(1);
-			map.put("typeOf",x);
-			test.add(map);
+			Map<String, Object> s = new HashMap<>(1);
+			s.put("typeOf",x);
+			test.add(s);
 			test.add(movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()));
 			map.put("data", test);
 			result.add(map);
