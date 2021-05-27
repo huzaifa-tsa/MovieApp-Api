@@ -88,16 +88,17 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<Object> getFormatedDateForAndroid() {
-		Set<String> genres =	getAllGenres();
 		List<Object> result = new LinkedList<>();
-		genres.forEach(x -> {
+		getAllGenres().forEach(x -> {
 			Map<String, Object> map = new HashMap<>(2);
 			map.put("title", x);
 			List<Object> test = new LinkedList<>();
-			Map<String, Object> s = new HashMap<>(1);
-			s.put("typeOf",x);
-			test.add(s);
-			test.add(movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()));
+			movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()).forEach(y -> {
+				Map<String , String> l = new HashMap<>(2);
+				l.put("industory", y);
+				l.put("typeOf", x);
+				test.add(l);
+			});
 			map.put("data", test);
 			result.add(map);
 		});
