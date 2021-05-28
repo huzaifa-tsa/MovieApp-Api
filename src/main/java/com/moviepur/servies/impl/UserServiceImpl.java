@@ -46,10 +46,13 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public User addUser(String token) throws MoviepurException {
-		if(!userPresent(token))
+	public User addUser(String token)  {
+		try {
+			return getByToken(token);
+		}catch (MoviepurException e) {
 			return userRepository.save(new User(primeryKeySeqService.getCurrentPostion("USERTABLE"), token,passwordEncoder.encode(token),LocalDate.now(),LocalDate.now()));
-		throw new MoviepurException(409,"User Already Present");	
+		}
+		
 	}
 
 	@Override
@@ -83,6 +86,11 @@ public class UserServiceImpl implements UserService{
 	public String addAllUser(List<User> user) {
 		userRepository.saveAll(user);
 		return "success";
+	}
+
+	@Override
+	public boolean checkUserLikeOrNot(String token, int movieId) {
+		return userRepository.checkUserLikeOrNot(token,movieId);
 	}
 
 }

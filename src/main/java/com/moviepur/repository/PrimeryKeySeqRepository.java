@@ -1,5 +1,6 @@
 package com.moviepur.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,8 @@ public interface PrimeryKeySeqRepository extends JpaRepository<PrimeryKeySeq, In
 
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM  my_database_seq")
 	public int getCount();
+
+	@Query(nativeQuery = true, value = "SELECT * FROM  my_database_seq")
+	public List<PrimeryKeySeq> getAll();
 
 }

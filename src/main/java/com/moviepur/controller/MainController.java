@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moviepur.entitys.Movie;
+import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.servies.MainService;
 
@@ -84,7 +85,11 @@ public class MainController {
 					.body(customerJsonBytes);
 		}catch (Exception e) {
 			throw new MoviepurException(409,e.getLocalizedMessage());
-		}
-                
+		}        
+	}
+	
+	@PostMapping("/saveAllPrimery")
+	public String saveAllPrimeryKeq(@RequestBody List<PrimeryKeySeq> list) {
+		return mainService.saveAllPrimeryKeq(list);
 	}
 }

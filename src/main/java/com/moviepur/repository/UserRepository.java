@@ -26,5 +26,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 
 	@Query(nativeQuery = true, value = "SELECT id , token, created_date, update_date FROM myuser WHERE update_date <= :date ORDER BY update_date DESC")
 	public List<Map<String, Object>> getAllUserNotUpdateLastMonths(@Param("date") LocalDate minusMonths);
+
+	@Query(nativeQuery = true, value = "select Exists (Select * from myuser as m Left Join myuser_likes_movie as l on m.id = l.user_id where m.token = :token and likes_movie_id = :movieId);")
+	public boolean checkUserLikeOrNot(@Param("token") String token, @Param("movieId") int movieId);
 		
 }

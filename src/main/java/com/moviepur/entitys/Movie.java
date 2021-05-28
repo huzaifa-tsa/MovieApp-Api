@@ -19,7 +19,6 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,7 +27,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 public class Movie {
 	
 	@Id
@@ -50,7 +48,7 @@ public class Movie {
 	
 	private String runTime;
 
-	private String directorys;
+	private String directors;
 	private String writers;
 	private String stars;
 		

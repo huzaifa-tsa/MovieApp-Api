@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moviepur.entitys.Movie;
+import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.repository.MovieRepository;
 import com.moviepur.servies.FilmSeriesService;
@@ -104,12 +105,20 @@ public class MainServiceImpl implements MainService {
 		if (passwordEncoder.matches(password, ADMINPASSWORD)) {
 			try {
 				ObjectMapper json = new ObjectMapper();
-				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"+json.writeValueAsString(userService.getAllUser())+"\n\n\n\n\n\n"+json.writeValueAsString(filmSeriesService.getAll());
+				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"
+						   +json.writeValueAsString(userService.getAllUser())+"\n\n\n\n\n\n"
+				           +json.writeValueAsString(filmSeriesService.getAll())+"\n\n\n\n\n\n"
+				           +json.writeValueAsString(primeryKeySeqService.getAll());
 			} catch (JsonProcessingException e) {
 				return "failed";
 			}
 		}
 		throw new MoviepurException(401, "password is wrong");
+	}
+
+	@Override
+	public String saveAllPrimeryKeq(List<PrimeryKeySeq> list) {
+		return primeryKeySeqService.saveAll(list);
 	}
 
 }

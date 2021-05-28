@@ -70,9 +70,9 @@ public class AllController {
 		return allService.getByReleaseYear(startYear,endYear);
 	}
 	
-	@GetMapping("/getByLatestReleaseDate")
-	public List<MovieLite> getByLatestReleaseDate(){
-		return allService.getByLatestReleaseDate();
+	@GetMapping("/getByLatestReleaseDate/{industryName}/{limit}")
+	public List<MovieLite> getByLatestReleaseDate(@PathVariable String industryName, @PathVariable int limit){
+		return allService.getByLatestReleaseDate(industryName, limit);
 	}
 	
 	@GetMapping("/getByIndustryName/{industryName}")

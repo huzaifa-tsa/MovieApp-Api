@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.moviepur.entitys.Movie;
+import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.exception.MoviepurException;
 
 public interface MainService {
@@ -25,5 +26,7 @@ public interface MainService {
 	public String delete(int movieId, String password)throws MoviepurException;
 
 	public String downloadJson(String password) throws MoviepurException;
+
+	public String saveAllPrimeryKeq(List<PrimeryKeySeq> list);
 
 }

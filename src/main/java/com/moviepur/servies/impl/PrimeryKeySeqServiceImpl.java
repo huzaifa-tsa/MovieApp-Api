@@ -1,5 +1,7 @@
 package com.moviepur.servies.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,17 @@ public class PrimeryKeySeqServiceImpl implements PrimeryKeySeqService {
 
 	private int countData() {
 		return primeryKeySeqRepository.getCount()+1;
+	}
+
+	@Override
+	public List<PrimeryKeySeq> getAll() {
+		return primeryKeySeqRepository.getAll();
+	}
+
+	@Override
+	public String saveAll(List<PrimeryKeySeq> list) {
+		primeryKeySeqRepository.saveAll(list);
+		return "success";
 	}
 	
 }

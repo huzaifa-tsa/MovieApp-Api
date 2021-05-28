@@ -36,6 +36,11 @@ public class UserController {
 		return userService.getByToken(token);
 	}
 	
+	@GetMapping("/{token}/{movieId}")
+	public boolean checkUserLikeOrNot(@PathVariable String token,@PathVariable int movieId) throws MoviepurException {
+		return userService.checkUserLikeOrNot(token,movieId);
+	}
+	
 	@GetMapping("exists/{token}")
 	public boolean existsByToken(@PathVariable String token) {
 		return userService.userPresent(token);

@@ -26,4 +26,6 @@ public interface UserService {
 
 	public String addAllUser(List<User> user);
 	
+	public boolean checkUserLikeOrNot(String token, int movieId);
+	
 }

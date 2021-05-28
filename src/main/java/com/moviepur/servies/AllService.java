@@ -28,7 +28,7 @@ public interface AllService {
 
 	public MovieLite getById(int movieId) throws MoviepurException;
 
-	public List<MovieLite> getByLatestReleaseDate();
+	public List<MovieLite> getByLatestReleaseDate(String industryName , int limit);
 
 	public List<MovieLite> getByIndustryName(String industryName);
 

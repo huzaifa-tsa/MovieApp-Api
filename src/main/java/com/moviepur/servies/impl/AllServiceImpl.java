@@ -17,13 +17,13 @@ import com.moviepur.servies.AllService;
 
 @Service
 public class AllServiceImpl implements AllService {
-	
+
 	@Autowired
 	private MovieLiteRepository movieLiteRepository;
-	
+
 	@Override
 	public List<MovieLite> getAllMovieLite() {
-		 return movieLiteRepository.findAllByDesc();
+		return movieLiteRepository.findAllByDesc();
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class AllServiceImpl implements AllService {
 	}
 
 	@Override
-	public List<MovieLite> getBetweenRating(String raterName,float min, float max) {
-		return movieLiteRepository.getAcouradingToRating(raterName.toLowerCase(),min, max+1);
+	public List<MovieLite> getBetweenRating(String raterName, float min, float max) {
+		return movieLiteRepository.getAcouradingToRating(raterName.toLowerCase(), min, max + 1);
 	}
 
 	@Override
@@ -43,12 +43,13 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getByReleaseYear(int startDate, int endDate) {
-		return movieLiteRepository.findAllByReleaseYear(LocalDate.parse(startDate+"-01-01"),LocalDate.parse((endDate+1)+"-01-02"));
+		return movieLiteRepository.findAllByReleaseYear(LocalDate.parse(startDate + "-01-01"),
+				LocalDate.parse((endDate + 1) + "-01-02"));
 	}
-	
+
 	@Override
 	public List<MovieLite> getByGenre(String genre) {
-		return movieLiteRepository. findAllByGenreDesc(genre.toLowerCase()); 
+		return movieLiteRepository.findAllByGenreDesc(genre.toLowerCase());
 	}
 
 	@Override
@@ -68,12 +69,12 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public MovieLite getById(int movieId) throws MoviepurException {
-		 return	movieLiteRepository.getById(movieId).orElseThrow(() -> new MoviepurException(404,"Movie Not Found"));
+		return movieLiteRepository.getById(movieId).orElseThrow(() -> new MoviepurException(404, "Movie Not Found"));
 	}
 
 	@Override
-	public List<MovieLite> getByLatestReleaseDate() {
-		return movieLiteRepository.getByLatestReleaseDate();
+	public List<MovieLite> getByLatestReleaseDate(String industryName, int limit) {
+		return movieLiteRepository.getByLatestReleaseDate(industryName, limit);
 	}
 
 	@Override
@@ -83,17 +84,23 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public List<MovieLite> getByGenreAndIndustryName(String genre, String industryName) {
-		return movieLiteRepository.getByGenreAndIndustryName(genre.toLowerCase(),industryName);
+		return movieLiteRepository.getByGenreAndIndustryName(genre.toLowerCase(), industryName);
 	}
 
 	@Override
 	public List<Object> getFormatedDateForAndroid() {
-		Set<String> genres =	getAllGenres();
 		List<Object> result = new LinkedList<>();
-		genres.forEach(x -> {
+		getAllGenres().forEach(x -> {
 			Map<String, Object> map = new HashMap<>(2);
 			map.put("title", x);
-			map.put("data", movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()));
+			List<Object> test = new LinkedList<>();
+			movieLiteRepository.getAllIndustryByGenre(x.toLowerCase()).forEach(y -> {
+				Map<String, String> l = new HashMap<>(2);
+				l.put("industory", y);
+				l.put("typeOf", x);
+				test.add(l);
+			});
+			map.put("data", test);
 			result.add(map);
 		});
 		return result;
@@ -112,12 +119,12 @@ public class AllServiceImpl implements AllService {
 	@Override
 	public List<MovieLite> getByPerson(int i, String name) {
 		name = name.toLowerCase();
-		if(i==1)
+		if (i == 1)
 			return movieLiteRepository.getByDirecterName(name);
-		else if(i==2)
+		else if (i == 2)
 			return movieLiteRepository.getByWriterName(name);
 		else
 			return movieLiteRepository.getByStarName(name);
-		}
+	}
 
 }
