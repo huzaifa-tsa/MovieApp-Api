@@ -93,4 +93,9 @@ public class UserServiceImpl implements UserService{
 		return userRepository.checkUserLikeOrNot(token,movieId);
 	}
 
+	@Override
+	public List<String> getAllUserToken() {
+		return userRepository.getAllUserToken();
+	}
+
 }

@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.AndroidConfig.Priority;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.MulticastMessage;
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.exception.MoviepurException;
@@ -62,6 +66,14 @@ public class MainServiceImpl implements MainService {
 	public Movie addMovie(Movie movie) throws MoviepurException {
 		try {
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
+			
+			MulticastMessage message = MulticastMessage.builder().putData("Title", "New "+movie.getType()+" Add")
+					.putData("notificationText", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".")
+					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
+					.addAllTokens(userService.getAllUserToken()).build();
+			
+			FirebaseMessaging.getInstance().sendMulticast(message);
+			
 			return movieRepository.save(movie);
 		} catch (Exception e) {
 			throw new MoviepurException(500, "Internal Server Error");
@@ -86,8 +98,19 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public Movie updateDownloadsLinks(int id, Map<String, String> downloadLinks) throws MoviepurException {
 		Movie movie = getById(id);
-		movie.setDownload_link(downloadLinks);
+		try {
+			movie.setDownload_link(downloadLinks);
+			MulticastMessage message = MulticastMessage.builder().putData("Title", "Update "+movie.getName()+" Download Link")
+				.putData("notificationText", movie.getName()+" Download Link Update.\n Go And Enjoy.")
+				.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
+				.addAllTokens(userService.getAllUserToken()).build();
+		
+		FirebaseMessaging.getInstance().sendMulticast(message);
+
 		return movieRepository.save(movie);
+		}catch (Exception e) {
+			throw new MoviepurException(404,"problem\n"+e.getLocalizedMessage());
+		}
 	}
 
 	@Override
