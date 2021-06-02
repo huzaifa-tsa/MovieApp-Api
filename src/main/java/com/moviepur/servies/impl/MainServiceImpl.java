@@ -62,18 +62,37 @@ public class MainServiceImpl implements MainService {
 		return movieRepository.getById(movieId).orElseThrow(() -> new MoviepurException(404, "Movie Not Found"));
 	}
 
+	private boolean sendFirebaseMessage(String title,String body) {
+		try {
+			List<String> allTokens =userService.getAllUserToken();
+			
+			int loop = allTokens.size()/500;
+			for(int i=0;i<loop;i++)
+			{
+				MulticastMessage message = MulticastMessage.builder().putData("Title", title)
+						.putData("notificationText", body)
+						.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
+						.addAllTokens(allTokens.subList(0+(500*1), 499+(500*i))).build();
+				FirebaseMessaging.getInstance().sendMulticast(message);
+			}
+			
+			MulticastMessage message = MulticastMessage.builder().putData("Title", title)
+					.putData("notificationText", body)
+					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
+					.addAllTokens(allTokens.subList(loop*500,allTokens.size()-1)).build();
+			FirebaseMessaging.getInstance().sendMulticast(message);
+			return true;
+		}catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
+			return false;
+		}
+	}
+	
 	@Override
 	public Movie addMovie(Movie movie) throws MoviepurException {
 		try {
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
-			
-			MulticastMessage message = MulticastMessage.builder().putData("Title", "New "+movie.getType()+" Add")
-					.putData("notificationText", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".")
-					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
-					.addAllTokens(userService.getAllUserToken()).build();
-			
-			FirebaseMessaging.getInstance().sendMulticast(message);
-			
+			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".");
 			return movieRepository.save(movie);
 		} catch (Exception e) {
 			throw new MoviepurException(500, "Internal Server Error");
@@ -100,14 +119,8 @@ public class MainServiceImpl implements MainService {
 		Movie movie = getById(id);
 		try {
 			movie.setDownload_link(downloadLinks);
-			MulticastMessage message = MulticastMessage.builder().putData("Title", "Update "+movie.getName()+" Download Link")
-				.putData("notificationText", movie.getName()+" Download Link Update.\n Go And Enjoy.")
-				.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
-				.addAllTokens(userService.getAllUserToken()).build();
-		
-		FirebaseMessaging.getInstance().sendMulticast(message);
-
-		return movieRepository.save(movie);
+			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.");
+			return movieRepository.save(movie);
 		}catch (Exception e) {
 			throw new MoviepurException(404,"problem\n"+e.getLocalizedMessage());
 		}
