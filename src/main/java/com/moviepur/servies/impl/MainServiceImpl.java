@@ -80,7 +80,8 @@ public class MainServiceImpl implements MainService {
 					.putData("notificationText", body)
 					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
 					.addAllTokens(allTokens.subList(loop*500,allTokens.size()-1)).build();
-			FirebaseMessaging.getInstance().sendMulticast(message);
+			Object a = FirebaseMessaging.getInstance().sendMulticast(message);
+			System.out.println(a);
 			return true;
 		}catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
