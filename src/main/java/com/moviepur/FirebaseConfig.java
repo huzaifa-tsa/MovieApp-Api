@@ -7,7 +7,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 @Configuration
-public class  {
+public class FirebaseConfig  {
 	
 	@PostConstruct
 	public void firebaseSetup() {
