@@ -29,4 +29,6 @@ public interface MainService {
 
 	public String saveAllPrimeryKeq(List<PrimeryKeySeq> list);
 
+	public Object getForSite(String name);
+
 }

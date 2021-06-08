@@ -3,8 +3,10 @@ package com.moviepur.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -87,6 +89,19 @@ public class MainController {
 			throw new MoviepurException(409,e.getLocalizedMessage());
 		}        
 	}
+	
+//========Help In WebSite===================//
+	@GetMapping("getForSite/{name}")
+	public ResponseEntity<Object> getForSite(@PathVariable String name) {
+		 CacheControl cacheControl = CacheControl.maxAge(60, TimeUnit.SECONDS)
+			      .noTransform()
+			      .mustRevalidate();
+			    return ResponseEntity.ok()
+			      .cacheControl(cacheControl)
+			      .body(mainService.getForSite(name));
+	}
+	
+	//======================================//
 	
 	@PostMapping("/saveAllPrimery")
 	public String saveAllPrimeryKeq(@RequestBody List<PrimeryKeySeq> list) {

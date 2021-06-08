@@ -158,4 +158,13 @@ public class MainServiceImpl implements MainService {
 		return primeryKeySeqService.saveAll(list);
 	}
 
+	@Override
+	public Object getForSite(String name) {
+		if(name.equals("Moviepur"))
+			return movieRepository.getForSiteWithoutName();
+		else
+			return movieRepository.getForSiteWithName(name);
+	
+	}
+
 }
