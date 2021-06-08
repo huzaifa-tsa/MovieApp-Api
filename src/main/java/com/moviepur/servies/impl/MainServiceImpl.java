@@ -79,8 +79,8 @@ public class MainServiceImpl implements MainService {
 			MulticastMessage message = MulticastMessage.builder().putData("Title", title)
 					.putData("notificationText", body)
 					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
-					.addAllTokens(allTokens.subList(loop*500,allTokens.size()-1)).build();
-			System.out.println( FirebaseMessaging.getInstance().sendMulticast(message).getSuccessCount()+" z" );
+					.addAllTokens(allTokens.subList(loop*500,allTokens.size())).build();
+			FirebaseMessaging.getInstance().sendMulticast(message);
 			
 			return true;
 		}catch (Exception e) {
