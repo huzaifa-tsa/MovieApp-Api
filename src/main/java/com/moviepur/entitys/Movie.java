@@ -50,6 +50,7 @@ public class Movie {
 
 	private String directors;
 	private String writers;
+	@Column(name="CONTENT", length=2000)
 	private String stars;
 		
 	@ElementCollection
