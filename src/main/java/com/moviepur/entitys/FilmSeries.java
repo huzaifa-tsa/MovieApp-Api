@@ -3,6 +3,7 @@ package com.moviepur.entitys;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,7 +24,9 @@ public class FilmSeries {
 
 	@Id
 	private int id;
-	private String name;	
+	@Column(name="name", length=500)
+	private String name;		
+	@Column(name="image_url", length=500)
 	private String imageUrl;
 	
 	@ManyToMany

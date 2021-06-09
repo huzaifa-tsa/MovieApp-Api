@@ -31,10 +31,14 @@ public class Movie {
 	
 	@Id
 	private int id;
+
+	@Column(name="name", length=500)
+	private String name;
+
+	@Column(name="image_url", length=500)
+	private String image_url;
 	
-	private String name, image_url;
-	
-	@Column(name="CONTENT", length=2000)
+	@Column(name="description", length=3000)
 	private String description;
 	
 	private LocalDate releaseDate;
@@ -50,6 +54,8 @@ public class Movie {
 
 	private String directors;
 	private String writers;
+
+	@Column(name="stars", length=2000)
 	private String stars;
 		
 	@ElementCollection
@@ -60,7 +66,7 @@ public class Movie {
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@MapKeyColumn(name="name" , length = 50)
-    @Column(name="link",length = 500)
+    @Column(name="link",length = 1000)
 	@CollectionTable(name = "download_link", joinColumns = @JoinColumn(name = "id"))
 	private Map<String,String> download_link = new LinkedHashMap<>(5, 0.25f);
 

@@ -90,7 +90,6 @@ public class MainController {
 		}        
 	}
 	
-//========Help In WebSite===================//
 	@GetMapping("getForSite/{name}")
 	public ResponseEntity<Object> getForSite(@PathVariable String name) {
 		 CacheControl cacheControl = CacheControl.maxAge(60, TimeUnit.SECONDS)
@@ -100,8 +99,6 @@ public class MainController {
 			      .cacheControl(cacheControl)
 			      .body(mainService.getForSite(name));
 	}
-	
-	//======================================//
 	
 	@PostMapping("/saveAllPrimery")
 	public String saveAllPrimeryKeq(@RequestBody List<PrimeryKeySeq> list) {

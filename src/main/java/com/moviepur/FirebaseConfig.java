@@ -7,7 +7,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 @Configuration
-public class FirebaseConfig  {
+public class FirebaseConfig {
 	
 	@Bean
 	public void firebaseSetup() {
@@ -23,4 +23,3 @@ public class FirebaseConfig  {
 	}
 	
 }
-

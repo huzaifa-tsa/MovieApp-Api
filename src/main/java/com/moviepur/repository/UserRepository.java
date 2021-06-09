@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Query(nativeQuery = true, value = "select Exists (Select * from myuser as m Left Join myuser_likes_movie as l on m.id = l.user_id where m.token = :token and likes_movie_id = :movieId);")
 	public boolean checkUserLikeOrNot(@Param("token") String token, @Param("movieId") int movieId);
 
-	@Query(nativeQuery = true, value = "SELECT token FROM myuser ")
-	public List<String> getAllUserToken();
+	@Query(nativeQuery = true, value = "SELECT token FROM myuser")
+	public List<String> getAllUserTokens();
 		
 }

@@ -79,9 +79,8 @@ public class MainServiceImpl implements MainService {
 			MulticastMessage message = MulticastMessage.builder().putData("Title", title)
 					.putData("notificationText", body)
 					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
-					.addAllTokens(allTokens.subList(loop*500,allTokens.size())).build();
+					.addAllTokens(allTokens.subList(loop*500,allTokens.size()-1)).build();
 			FirebaseMessaging.getInstance().sendMulticast(message);
-			
 			return true;
 		}catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
@@ -93,8 +92,9 @@ public class MainServiceImpl implements MainService {
 	public Movie addMovie(Movie movie) throws MoviepurException {
 		try {
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
+			movie = movieRepository.save(movie);
 			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".");
-			return movieRepository.save(movie);
+			return movie;
 		} catch (Exception e) {
 			throw new MoviepurException(500, "Internal Server Error");
 		}
@@ -120,8 +120,9 @@ public class MainServiceImpl implements MainService {
 		Movie movie = getById(id);
 		try {
 			movie.setDownload_link(downloadLinks);
+			movie = movieRepository.save(movie);
 			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.");
-			return movieRepository.save(movie);
+			return movie;
 		}catch (Exception e) {
 			throw new MoviepurException(404,"problem\n"+e.getLocalizedMessage());
 		}
@@ -164,7 +165,6 @@ public class MainServiceImpl implements MainService {
 			return movieRepository.getForSiteWithoutName();
 		else
 			return movieRepository.getForSiteWithName(name);
-	
 	}
 
 }

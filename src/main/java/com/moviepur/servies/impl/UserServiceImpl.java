@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<String> getAllUserToken() {
-		return userRepository.getAllUserToken();
+		return userRepository.getAllUserTokens();
 	}
 
 }
