@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.moviepur.entitys.FirebaseClass;
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.entitys.Type;
@@ -112,4 +113,19 @@ public class MainController {
 	public String saveAllPrimeryKeq(@RequestBody List<PrimeryKeySeq> list) {
 		return mainService.saveAllPrimeryKeq(list);
 	}
+	
+	
+	//==========Firebase Class==================
+	@GetMapping("firebase")
+	public FirebaseClass getFirebaseClass() throws MoviepurException {
+		return mainService.getFirebaseClass();
+	}
+	
+	@PostMapping("firebase")
+	public FirebaseClass saveFirebaseClass(@RequestBody FirebaseClass firebaseClass) {
+		return mainService.saveFirebaseClass(firebaseClass);
+	}
+	
+	
+	
 }

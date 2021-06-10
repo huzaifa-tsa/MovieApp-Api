@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import com.moviepur.entitys.FirebaseClass;
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.entitys.Type;
@@ -34,5 +35,13 @@ public interface MainService {
 	public String saveAllPrimeryKeq(List<PrimeryKeySeq> list);
 
 	public Object getForSite(String name);
+
+	
+	//========Firebase=========
+
+	public FirebaseClass getFirebaseClass() throws MoviepurException;
+	
+	public FirebaseClass saveFirebaseClass(FirebaseClass firebaseClass);
+
 
 }

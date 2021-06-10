@@ -14,10 +14,12 @@ import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.AndroidConfig.Priority;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.MulticastMessage;
+import com.moviepur.entitys.FirebaseClass;
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
 import com.moviepur.entitys.Type;
 import com.moviepur.exception.MoviepurException;
+import com.moviepur.repository.FirebaseClassRepository;
 import com.moviepur.repository.MovieRepository;
 import com.moviepur.servies.FilmSeriesService;
 import com.moviepur.servies.MainService;
@@ -41,7 +43,10 @@ public class MainServiceImpl implements MainService {
 	
 	@Autowired
 	private FilmSeriesService filmSeriesService;
-
+	
+	@Autowired
+	private FirebaseClassRepository firebaseRepository;
+	
 	private static final String ADMINPASSWORD = "$2a$10$YST7qlq5oKVTSZv9/tSlrOaNnUy1Wc./dzmeC1Ung6XSnDx1bvij6";
 
 	@Override
@@ -154,7 +159,8 @@ public class MainServiceImpl implements MainService {
 				return json.writeValueAsString(movieRepository.getAll())+"\n\n\n\n\n\n"
 						   +json.writeValueAsString(userService.getAllUser())+"\n\n\n\n\n\n"
 				           +json.writeValueAsString(filmSeriesService.getAll())+"\n\n\n\n\n\n"
-				           +json.writeValueAsString(primeryKeySeqService.getAll());
+				           +json.writeValueAsString(primeryKeySeqService.getAll())+"\n\n\n\n\n\n"
+				           +json.writeValueAsString(firebaseRepository.findAll())+"\n\n\n\n\n\n";
 			} catch (JsonProcessingException e) {
 				return "failed";
 			}
@@ -173,6 +179,20 @@ public class MainServiceImpl implements MainService {
 			return movieRepository.getForSiteWithoutName();
 		else
 			return movieRepository.getForSiteWithName(name);
+	}
+
+	
+	//===================Firebase Class==========
+	
+	@Override
+	public FirebaseClass getFirebaseClass() throws MoviepurException {
+		return firebaseRepository.getFirebaseClass().orElseThrow(() -> new MoviepurException(404, "Firebase Not found"));
+	}
+
+	@Override
+	public FirebaseClass saveFirebaseClass(FirebaseClass firebaseClass) {
+		firebaseClass.setId(1);
+		return firebaseRepository.save(firebaseClass);
 	}
 
 }
