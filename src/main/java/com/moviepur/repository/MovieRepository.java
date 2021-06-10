@@ -1,5 +1,6 @@
 package com.moviepur.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT id,name,type,release_date FROM movie where LOWER(name) LIKE %:name% ORDER BY id DESC")
 	public List<Map<String, Object>> getForSiteWithName(@Param("name") String name);
+	
+	@Query(nativeQuery = true, value = "SELECT EXISTS(SELECT id from movie WHERE LOWER(name) LIKE %:name%  AND release_date  = :date AND type = :type)")
+	public boolean checkExists(@Param("name") String name,@Param("date") LocalDate date,@Param("type") String type);
 
 	
 }

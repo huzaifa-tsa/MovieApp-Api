@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Query(nativeQuery = true, value = "SELECT * FROM myuser WHERE token = :token")
 	public Optional<User> getByToken(String token);
 
-	@Query(nativeQuery = true, value = "SELECT EXISTS(SELECT * from myuser WHERE token = :token)")
+	@Query(nativeQuery = true, value = "SELECT EXISTS(SELECT token from myuser WHERE token = :token)")
 	public boolean checkUserIsPresent(String token);
 
 	@Query(nativeQuery = true, value = "SELECT id , token, created_date, update_date FROM myuser WHERE update_date <= :date ORDER BY update_date DESC")

@@ -1,11 +1,13 @@
 package com.moviepur.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
+import com.moviepur.entitys.Type;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.servies.MainService;
 
@@ -37,7 +40,12 @@ public class MainController {
 	public List<Movie> getAllMovie() {
 		return mainService.getAllMovie();
 	}
-
+	
+	@GetMapping("exsist/{name}/{type}/{date}")
+	public boolean exsist(@PathVariable String name, @PathVariable Type type,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
+		return mainService.exsist(name, date, type);
+	}
+	
 	@PostMapping
 	public String saveAll(@RequestBody List<Movie> movielist) {
 		return mainService.saveAllMovie(movielist);

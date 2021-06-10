@@ -1,5 +1,6 @@
 package com.moviepur.servies.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.MulticastMessage;
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
+import com.moviepur.entitys.Type;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.repository.MovieRepository;
 import com.moviepur.servies.FilmSeriesService;
@@ -88,15 +90,21 @@ public class MainServiceImpl implements MainService {
 		}
 	}
 	
+	public boolean exsist(String name, LocalDate date , Type type) {
+		return movieRepository.checkExists(name,date, type.toString());
+	}
+	
 	@Override
 	public Movie addMovie(Movie movie) throws MoviepurException {
 		try {
+			if(exsist(movie.getName(), movie.getReleaseDate(), movie.getType()))
+				throw new MoviepurException(409, "alredy exists");
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
 			movie = movieRepository.save(movie);
 			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".");
 			return movie;
 		} catch (Exception e) {
-			throw new MoviepurException(500, "Internal Server Error");
+			throw new MoviepurException(500, e.getLocalizedMessage());
 		}
 	}
 

@@ -1,10 +1,12 @@
 package com.moviepur.servies;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 import com.moviepur.entitys.Movie;
 import com.moviepur.entitys.PrimeryKeySeq;
+import com.moviepur.entitys.Type;
 import com.moviepur.exception.MoviepurException;
 
 public interface MainService {
@@ -15,6 +17,8 @@ public interface MainService {
 
 	public Movie getById(int movieid) throws MoviepurException;
 
+	public boolean exsist(String name, LocalDate date , Type type);
+	
 	public Movie addMovie(Movie movie) throws MoviepurException;
 
 	public Movie updateMovie(int id, Movie movie) throws MoviepurException;
