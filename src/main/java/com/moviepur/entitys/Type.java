@@ -1,4 +1,4 @@
-package com.moviepur.entity;
+package com.moviepur.entitys;
 
 public enum Type {
 	Movie,Series
