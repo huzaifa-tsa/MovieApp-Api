@@ -61,7 +61,7 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie ORDER BY  RANDOM( )  LIMIT 3" )
 	public List<MovieLite> getRandomMovie();
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie AS m RIGHT JOIN myuser_likes_movie AS u ON m.id = u.likes_movie_id  GROUP BY m.id  ORDER BY COUNT(u.likes_movie_id)  DESC LIMIT 5" )
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie AS m RIGHT JOIN myuser_likes_movie AS u ON m.id = u.likes_movie_id  GROUP BY m.id  ORDER BY COUNT(u.likes_movie_id)  DESC LIMIT 10" )
 	public List<MovieLite> getMostLikeMovie();
 
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie where LOWER(directors) LIKE %:name%")
