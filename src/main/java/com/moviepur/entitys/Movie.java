@@ -1,7 +1,6 @@
 package com.moviepur.entitys;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -68,14 +67,14 @@ public class Movie {
 		
 	@ElementCollection
 	@CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "id"))
-	private Set<String> genre = new HashSet<>(5,0.5f);
+	private Set<String> genre ;
 
 	@ElementCollection
 	@CollectionTable(name = "language", joinColumns = @JoinColumn(name = "id"))
-	private Set<String> language = new HashSet<>(2,0.5f);
+	private Set<String> language ;
 
 	@ElementCollection
 	@CollectionTable(name = "otherImages", joinColumns = @JoinColumn(name = "id"))
-	private Set<String> otherImages = new HashSet<>(3,0.5f);
+	private Set<String> otherImages;
 
 }
