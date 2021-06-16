@@ -18,6 +18,8 @@ public class SeriesDownloadLink {
 	private String partName;
 	@Id
 	private String partLink;
+	private String partRunTime;
+	private String partImage;
 
 	@Override
 	public int hashCode() {
