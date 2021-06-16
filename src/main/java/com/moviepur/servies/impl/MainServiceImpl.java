@@ -2,7 +2,6 @@ package com.moviepur.servies.impl;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -146,7 +145,7 @@ public class MainServiceImpl implements MainService {
 	}
 
 	@Override
-	public Movie updateSeriesDownloadLinks(int id, Set<SeriesDownloadLink> seriesDownloadLinks)
+	public Movie updateSeriesDownloadLinks(int id, List<SeriesDownloadLink> seriesDownloadLinks)
 			throws MoviepurException {
 		Movie movie = getById(id);
 		try {

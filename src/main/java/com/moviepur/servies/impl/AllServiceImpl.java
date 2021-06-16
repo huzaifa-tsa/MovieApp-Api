@@ -27,11 +27,6 @@ public class AllServiceImpl implements AllService {
 	}
 
 	@Override
-	public List<MovieLite> getByType(String type) {
-		return movieLiteRepository.findAllByType(type);
-	}
-
-	@Override
 	public List<MovieLite> getBetweenRating(String raterName, float min, float max) {
 		if(raterName.equalsIgnoreCase("rotten"))
 			return movieLiteRepository.getRottenToRating(min, max + 1);

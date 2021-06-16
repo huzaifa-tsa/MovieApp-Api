@@ -21,34 +21,4 @@ public class SeriesDownloadLink {
 	private String partRunTime;
 	private String partImage;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((partLink == null) ? 0 : partLink.hashCode());
-		result = prime * result + ((partName == null) ? 0 : partName.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SeriesDownloadLink other = (SeriesDownloadLink) obj;
-		if (partLink == null) {
-			if (other.partLink != null)
-				return false;
-		} else if (!partLink.equals(other.partLink))
-			return false;
-		if (partName == null) {
-			if (other.partName != null)
-				return false;
-		} else if (!partName.equals(other.partName))
-			return false;
-		return true;
-	}
-	
 }

@@ -1,6 +1,7 @@
 package com.moviepur.entitys;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -51,7 +52,8 @@ public class Movie {
 
 	private String directors;
 	private String writers;
-	
+	@Column(name="stars", length=2000)
+	private String stars;
 	
 	private float rottenTomatoes;
 	private float imdb;
@@ -60,10 +62,7 @@ public class Movie {
 	private String movieDownloadLink;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<SeriesDownloadLink> seriesDownloadLinks;
-	
-	@Column(name="stars", length=2000)
-	private String stars;
+	private List<SeriesDownloadLink> seriesDownloadLinks;
 		
 	@ElementCollection
 	@CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "id"))

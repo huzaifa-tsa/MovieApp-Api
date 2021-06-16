@@ -18,7 +18,7 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url, release_date FROM movie ORDER BY id DESC")
 	public List<MovieLite> findAllByDesc();
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url, release_date FROM movie WHERE type=:type ORDER BY id DESC ")
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url, release_date FROM movie WHERE LOWER(type)=:type ORDER BY id DESC ")
 	public List<MovieLite> findAllByType(@Param("type") String type);
 
 	@Query(nativeQuery = true, value = "SELECT id, name, image_url,  release_date FROM movie WHERE rotten_tomatoes BETWEEN :min and :max  ORDER BY rotten_tomatoes DESC")
@@ -52,9 +52,15 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE id = :movieId")
 	public Optional<MovieLite> getById(@Param("movieId") int movieId);
 
+	//======Latest Relsed==================
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE industry_name = :industryName ORDER BY release_date DESC LIMIT :limit")
 	public List<MovieLite> getByLatestReleaseDate(@Param("industryName") String industryName,@Param("limit") int limit);
 
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE industry_name = :industryName And LOWER(type) = :type ORDER BY release_date DESC LIMIT :limit")
+	public List<MovieLite> getByLatestReleaseDateByType(@Param("type")String type, @Param("industryName") String industryName,@Param("limit") int limit);
+
+	//===================
+	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE industry_name = :industryName")
 	public List<MovieLite> getByIndustryName(@Param("industryName") String industryName);
 
@@ -67,9 +73,15 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie ORDER BY  RANDOM( )  LIMIT 3" )
 	public List<MovieLite> getRandomMovie();
 
+	//============Most LIked=========
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie AS m RIGHT JOIN myuser_likes_movie AS u ON m.id = u.likes_movie_id  GROUP BY m.id  ORDER BY COUNT(u.likes_movie_id)  DESC LIMIT 10" )
 	public List<MovieLite> getMostLikeMovie();
 
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie AS m RIGHT JOIN myuser_likes_movie AS u ON m.id = u.likes_movie_id WHERE LOWER(m.type) = :type   GROUP BY m.id  ORDER BY COUNT(u.likes_movie_id)  DESC LIMIT 10" )
+	public List<MovieLite> getMostLikeMovieByType(@Param("type") String type);
+
+	//=======================
+	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie where LOWER(directors) LIKE %:name%")
 	public List<MovieLite> getByDirecterName(@Param("name") String name);
 
@@ -78,6 +90,8 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie where LOWER(stars) LIKE %:name%")
 	public List<MovieLite> getByStarName(@Param("name") String name);
+
+
 
 
 }

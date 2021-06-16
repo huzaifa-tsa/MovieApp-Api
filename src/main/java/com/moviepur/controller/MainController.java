@@ -3,7 +3,6 @@ package com.moviepur.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,7 @@ public class MainController {
 	}
 	
 	@PutMapping("update/downloadSeriesLink/{movieId}")
-	public Movie updateSeriesDowloadLink(@PathVariable("movieId") int id, @RequestBody Set<SeriesDownloadLink> downloadLinks)
+	public Movie updateSeriesDowloadLink(@PathVariable("movieId") int id, @RequestBody List<SeriesDownloadLink> downloadLinks)
 			throws MoviepurException {
 		return mainService.updateSeriesDownloadLinks(id, downloadLinks);
 	}

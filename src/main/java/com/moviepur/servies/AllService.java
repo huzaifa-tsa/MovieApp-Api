@@ -10,8 +10,6 @@ public interface AllService {
 
 	public List<MovieLite> getAllMovieLite();
 
-	public List<MovieLite> getByType(String type);
-
 	public List<MovieLite> getByGenre(String genre);
 
 	public List<MovieLite> getBetweenRating(String name,float min, float max);

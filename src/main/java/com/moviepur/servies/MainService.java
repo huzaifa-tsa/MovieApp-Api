@@ -2,7 +2,6 @@ package com.moviepur.servies;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import com.moviepur.entitys.FirebaseClass;
 import com.moviepur.entitys.Movie;
@@ -29,7 +28,7 @@ public interface MainService {
 	
 	public Movie updateMovieDownloadLinks(int id, String downloadLink) throws MoviepurException ;
 
-	public Movie updateSeriesDownloadLinks(int id, Set<SeriesDownloadLink> seriesDownloadLinks) throws MoviepurException ;
+	public Movie updateSeriesDownloadLinks(int id, List<SeriesDownloadLink> seriesDownloadLinks) throws MoviepurException ;
 	
 	public String delete(int movieId, String password)throws MoviepurException;
 
