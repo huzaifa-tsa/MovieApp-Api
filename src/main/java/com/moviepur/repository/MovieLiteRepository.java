@@ -31,20 +31,20 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	public List<MovieLite> getMoviepurToRating(@Param("min") float min, @Param("max") float max);
 
 	
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE id IN (SELECT id FROM language WHERE LOWER(language)=:language) ORDER BY id DESC")
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE LOWER(language)  LIKE %:language% ORDER BY id DESC")
 	public List<MovieLite> findAllByLanguage(@Param("language") String language);
 
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE release_date  BETWEEN :startDate AND :endDate ORDER BY release_date DESC")
 	public List<MovieLite> findAllByReleaseYear(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre) ORDER BY id DESC")
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE LOWER(genre) LIKE %:genre% ORDER BY id DESC")
 	public List<MovieLite> findAllByGenreDesc(@Param("genre") String genre);
 	
-	@Query(nativeQuery = true, value = "SELECT  DISTINCT genre  FROM  genre")
-	public Set<String> getAllGenres();
+	@Query(nativeQuery = true, value = "SELECT array_to_string(array(SELECT genre FROM movie),', ');")
+	public String getAllGenres();
 
-	@Query(nativeQuery = true, value = "SELECT  DISTINCT language  FROM  language")
-	public Set<String> getAllLanguages();
+	@Query(nativeQuery = true, value = "SELECT array_to_string(array(SELECT language FROM movie),', ');")
+	public String getAllLanguages();
 	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie where LOWER(name) LIKE %:name%")
 	public List<MovieLite> getAllByNameContaines(@Param("name") String name);
@@ -64,10 +64,10 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE industry_name = :industryName")
 	public List<MovieLite> getByIndustryName(@Param("industryName") String industryName);
 
-	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre) And industry_name = :industryName ORDER BY id DESC" )
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie WHERE LOWER(genre) LIKE %:genre% And industry_name = :industryName ORDER BY id DESC" )
 	public List<MovieLite> getByGenreAndIndustryName(@Param("genre") String genre,@Param("industryName")  String industryName);
 
-	@Query(nativeQuery = true, value = "SELECT DISTINCT industry_name  FROM movie WHERE id IN (SELECT DISTINCT id FROM genre WHERE LOWER(genre) = :genre)" )
+	@Query(nativeQuery = true, value = "SELECT DISTINCT industry_name  FROM movie WHERE LOWER(genre) LIKE %:genre%" )
 	public Set<String> getAllIndustryByGenre(@Param("genre") String genre);
 	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date  FROM movie ORDER BY  RANDOM( )  LIMIT 3" )
@@ -90,6 +90,9 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date FROM movie where LOWER(stars) LIKE %:name%")
 	public List<MovieLite> getByStarName(@Param("name") String name);
+
+	@Query(nativeQuery = true, value = "SELECT id,name,image_url, release_date FROM movie ORDER BY id DESC LIMIT 10")
+	public List<MovieLite> getLatestAdd();
 
 
 

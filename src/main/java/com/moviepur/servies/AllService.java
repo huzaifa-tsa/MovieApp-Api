@@ -40,4 +40,6 @@ public interface AllService {
 
 	public List<MovieLite> getByPerson(int i, String name);
 
+	public List<MovieLite> getLatestAdd();
+
 }

@@ -60,17 +60,13 @@ public class Movie {
 	private float moviepur;
 	
 	private String movieDownloadLink;
+
+	private String language ;
+	private String genre ;
+
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<SeriesDownloadLink> seriesDownloadLinks;
-		
-	@ElementCollection
-	@CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "id"))
-	private Set<String> genre ;
-
-	@ElementCollection
-	@CollectionTable(name = "language", joinColumns = @JoinColumn(name = "id"))
-	private Set<String> language ;
 
 	@ElementCollection
 	@CollectionTable(name = "otherImages", joinColumns = @JoinColumn(name = "id"))

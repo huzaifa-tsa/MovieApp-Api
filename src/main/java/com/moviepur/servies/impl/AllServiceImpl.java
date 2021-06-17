@@ -1,11 +1,13 @@
 package com.moviepur.servies.impl;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,12 +61,12 @@ public class AllServiceImpl implements AllService {
 
 	@Override
 	public Set<String> getAllGenres() {
-		return movieLiteRepository.getAllGenres();
+		return Arrays.asList(movieLiteRepository.getAllGenres().split(",")).stream().map(String::trim).collect(Collectors.toSet());
 	}
 
 	@Override
 	public Set<String> getAllLanguages() {
-		return movieLiteRepository.getAllLanguages();
+		return Arrays.asList(movieLiteRepository.getAllLanguages().split(",")).stream().map(String::trim).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -125,6 +127,11 @@ public class AllServiceImpl implements AllService {
 			return movieLiteRepository.getByWriterName(name);
 		else
 			return movieLiteRepository.getByStarName(name);
+	}
+
+	@Override
+	public List<MovieLite> getLatestAdd() {
+		return movieLiteRepository.getLatestAdd();
 	}
 
 

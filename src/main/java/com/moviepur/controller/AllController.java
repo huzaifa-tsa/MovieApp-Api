@@ -26,6 +26,11 @@ public class AllController {
 		return allService.getAllMovieLite();
 	}
 	
+	@GetMapping("getLatestAdd")
+	public List<MovieLite> getLatestAdd() {
+		return allService.getLatestAdd();
+	}
+	
 	@GetMapping("/getAllGenres")
 	public Set<String> getAllGenres(){
 		return allService.getAllGenres();
