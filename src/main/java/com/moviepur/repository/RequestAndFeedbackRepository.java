@@ -16,10 +16,10 @@ public interface RequestAndFeedbackRepository extends JpaRepository<RequestAndFe
 	@Query(nativeQuery = true, value = "SELECT * FROM feedback ORDER BY id DESC")
 	List<RequestAndFeedback> getAll();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM feedback WHERE feedback = :status ORDER BY id DESC")
-	List<RequestAndFeedback> getByFeedbackAndRequest(@Param("status") boolean request);
+	@Query(nativeQuery = true, value = "SELECT * FROM feedback WHERE LOWER(feedback) = :status ORDER BY id DESC")
+	List<RequestAndFeedback> getByFeedbackAndRequest(@Param("status") String request);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM feedback WHERE created_date  BETWEEN :startDate AND :endDate AND feedback =:status ORDER BY created_date DESC")
-	List<RequestAndFeedback> getByDate(@Param("status") boolean status,@Param("startDate") LocalDate start,@Param("endDate") LocalDate plusDays);
+	@Query(nativeQuery = true, value = "SELECT * FROM feedback WHERE created_date  BETWEEN :startDate AND :endDate AND LOWER(feedback) =:status ORDER BY created_date DESC")
+	List<RequestAndFeedback> getByDate(@Param("status") String status,@Param("startDate") LocalDate start,@Param("endDate") LocalDate plusDays);
 
 }

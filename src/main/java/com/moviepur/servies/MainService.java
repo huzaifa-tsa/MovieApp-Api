@@ -44,6 +44,7 @@ public interface MainService {
 	public FirebaseClass getFirebaseClass() throws MoviepurException;
 	
 	public FirebaseClass saveFirebaseClass(FirebaseClass firebaseClass);
-
+	
+	public boolean sendFirebaseMessage(String title,String body, String image) ;
 
 }

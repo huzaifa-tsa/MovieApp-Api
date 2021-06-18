@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,7 +25,10 @@ public class RequestAndFeedback {
 	@Id
 	private int id;
 	
-	private boolean feedback;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Feedback feedback;
+	
 	@Column(name="message", length=2000)
 	private String message;
 	private LocalDate createdDate;

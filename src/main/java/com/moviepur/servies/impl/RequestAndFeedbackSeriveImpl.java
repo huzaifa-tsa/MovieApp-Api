@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.moviepur.entitys.Feedback;
 import com.moviepur.entitys.RequestAndFeedback;
 import com.moviepur.repository.RequestAndFeedbackRepository;
 import com.moviepur.servies.PrimeryKeySeqService;
@@ -26,13 +27,13 @@ public  class RequestAndFeedbackSeriveImpl implements RequestAndFeedbackSerive {
 	}
 
 	@Override
-	public RequestAndFeedback saveRequestAndFeedback(boolean request, String message) {
+	public RequestAndFeedback saveRequestAndFeedback(Feedback request, String message) {
 		return feedbackRepository.save(new RequestAndFeedback(primeryKeySeqService.getCurrentPostion("FEEDBACKTABLE"),request,message,LocalDate.now()));
 	}
 
 	@Override
-	public List<RequestAndFeedback> getByRequest(boolean request){
-		return feedbackRepository.getByFeedbackAndRequest(request);
+	public List<RequestAndFeedback> getByRequest(Feedback request){
+		return feedbackRepository.getByFeedbackAndRequest(request.toString().toLowerCase());
 	}
 
 	@Override
@@ -42,8 +43,8 @@ public  class RequestAndFeedbackSeriveImpl implements RequestAndFeedbackSerive {
 	}
 
 	@Override
-	public List<RequestAndFeedback> getByData(boolean status,LocalDate start, LocalDate end) {
-		return feedbackRepository.getByDate(status,start,end.plusDays(1));
+	public List<RequestAndFeedback> getByData(Feedback status,LocalDate start, LocalDate end) {
+		return feedbackRepository.getByDate(status.toString().toLowerCase(),start,end.plusDays(1));
 	}
 
 }

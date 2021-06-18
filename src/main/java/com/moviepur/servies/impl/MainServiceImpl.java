@@ -69,7 +69,7 @@ public class MainServiceImpl implements MainService {
 		return movieRepository.getById(movieId).orElseThrow(() -> new MoviepurException(404, "Movie Not Found"));
 	}
 
-	private boolean sendFirebaseMessage(String title,String body) {
+	public boolean sendFirebaseMessage(String title,String body, String image) {
 		try {
 			List<String> allTokens =userService.getAllUserToken();
 			
@@ -78,6 +78,7 @@ public class MainServiceImpl implements MainService {
 			{
 				MulticastMessage message = MulticastMessage.builder().putData("Title", title)
 						.putData("notificationText", body)
+						.putData("notificationImage", image)
 						.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
 						.addAllTokens(allTokens.subList(0+(500*1), 499+(500*i))).build();
 				FirebaseMessaging.getInstance().sendMulticast(message);
@@ -85,6 +86,7 @@ public class MainServiceImpl implements MainService {
 			
 			MulticastMessage message = MulticastMessage.builder().putData("Title", title)
 					.putData("notificationText", body)
+					.putData("notificationImage", image)
 					.setAndroidConfig(AndroidConfig.builder().setPriority(Priority.HIGH).build())
 					.addAllTokens(allTokens.subList(loop*500,allTokens.size())).build();
 			FirebaseMessaging.getInstance().sendMulticast(message);
@@ -106,7 +108,7 @@ public class MainServiceImpl implements MainService {
 				throw new MoviepurException(409, "alredy exists");
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
 			movie = movieRepository.save(movie);
-			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".");
+			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".",movie.getImage_url());
 			return movie;
 		} catch (Exception e) {
 			throw new MoviepurException(500, e.getLocalizedMessage());
@@ -137,7 +139,7 @@ public class MainServiceImpl implements MainService {
 				throw new MoviepurException("This Is Series Not A Movie");
 			movie.setMovieDownloadLink(downloadLink);
 			movie = movieRepository.save(movie);
-			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.");
+			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.",movie.getImage_url());
 			return movie;
 		}catch (Exception e) {
 			throw new MoviepurException(404,"problem\n"+e.getLocalizedMessage());
@@ -153,7 +155,7 @@ public class MainServiceImpl implements MainService {
 				throw new MoviepurException("This Is Movie Not A Series");
 			movie.setSeriesDownloadLinks(seriesDownloadLinks);
 			movie = movieRepository.save(movie);
-			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.");
+			sendFirebaseMessage("Update "+movie.getName()+" Download Link", movie.getName()+" Download Link Update.\n Go And Enjoy.",movie.getImage_url());
 			return movie;
 		}catch (Exception e) {
 			throw new MoviepurException(404,"problem\n"+e.getLocalizedMessage());

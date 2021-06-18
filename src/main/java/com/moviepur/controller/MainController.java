@@ -132,6 +132,10 @@ public class MainController {
 		return mainService.saveFirebaseClass(firebaseClass);
 	}
 	
+	@PostMapping("sendNotification/{title}/{body}/{image}")
+	public boolean sendFirebaseMessage(@PathVariable String title, @PathVariable String body, @PathVariable String image) {
+		return mainService.sendFirebaseMessage(title, body, image);
+	}
 	
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.moviepur.entitys.Feedback;
 import com.moviepur.entitys.RequestAndFeedback;
 import com.moviepur.servies.RequestAndFeedbackSerive;
 
@@ -28,23 +29,18 @@ public class RequestAndFeedbackController {
 		return requestAndFeedbackSerive.getAll();			
 	}
 	
-	@GetMapping("/feedback")
-	public List<RequestAndFeedback> getAllFeedback() {
-		return requestAndFeedbackSerive.getByRequest(true);			
-	}
-	
-	@GetMapping("/request")
-	public List<RequestAndFeedback> getAllRequest() {
-		return requestAndFeedbackSerive.getByRequest(false);			
+	@GetMapping("/{type}")
+	public List<RequestAndFeedback> getAllByType(@PathVariable Feedback type) {
+		return requestAndFeedbackSerive.getByRequest(type);			
 	}
 	
 	@GetMapping("{status}/{start}/{end}")
-	public List<RequestAndFeedback> getAllByDate(@PathVariable boolean status, @PathVariable String start, @PathVariable String end) {
+	public List<RequestAndFeedback> getAllByDate(@PathVariable Feedback status, @PathVariable String start, @PathVariable String end) {
 		return requestAndFeedbackSerive.getByData(status,LocalDate.parse(start), LocalDate.parse(end));			
 	}
 	
 	@PostMapping("/{status}/{message}")
-	public RequestAndFeedback save(@PathVariable boolean status, @PathVariable String message) {
+	public RequestAndFeedback save(@PathVariable Feedback status, @PathVariable String message) {
 		return requestAndFeedbackSerive.saveRequestAndFeedback(status, message);
 	}
 	
