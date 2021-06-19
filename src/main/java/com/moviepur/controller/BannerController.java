@@ -22,7 +22,7 @@ public class BannerController {
 	private BannerService bannerService; 
 	
 	@GetMapping
-	public Banner getBanner() throws MoviepurException {
+	public Object getBanner() throws MoviepurException {
 		return bannerService.getBanner();
 	}
 	

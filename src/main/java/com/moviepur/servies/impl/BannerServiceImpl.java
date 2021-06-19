@@ -1,5 +1,10 @@
 package com.moviepur.servies.impl;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +20,22 @@ public class BannerServiceImpl implements BannerService {
 	private BannerRepository bannerRepository;
 	
 	@Override
-	public Banner getBanner() throws MoviepurException {
-		return bannerRepository.getById().orElseThrow(() -> new MoviepurException(404, "Banner Not Found") );
+	public Object getBanner() throws MoviepurException {
+		Banner banner = bannerRepository.getById().orElseThrow(() -> new MoviepurException(404, "Banner Not Found") );
+		List<Object> result =  new LinkedList<>();
+		Map<String, Object> map = new LinkedHashMap<>();
+		map.put("id",1);
+		map.put("image", banner.getImage1());
+		result.add(map);
+		map = new LinkedHashMap<>();
+		map.put("id",2);
+		map.put("image", banner.getImage2());
+		result.add(map);
+		map = new LinkedHashMap<>();
+		map.put("id",3);
+		map.put("image", banner.getImage3());
+		result.add(map);
+		return result;
 	}
 
 	@Override
@@ -28,7 +47,7 @@ public class BannerServiceImpl implements BannerService {
 	@Override
 	public void bannerUpdate(boolean position, String imageLink) {
 		try {
-		Banner banner =	getBanner();
+		Banner banner =	bannerRepository.getById().orElseThrow(() -> new MoviepurException(404, "Banner Not Found") );
 		if(position)
 			banner.setImage2(imageLink);
 		else

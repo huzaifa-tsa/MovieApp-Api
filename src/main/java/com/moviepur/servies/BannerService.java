@@ -5,7 +5,7 @@ import com.moviepur.exception.MoviepurException;
 
 public interface BannerService {
 
-	public Banner getBanner() throws MoviepurException ;
+	public Object getBanner() throws MoviepurException ;
 	
 	public Banner save(Banner banner);
 	
