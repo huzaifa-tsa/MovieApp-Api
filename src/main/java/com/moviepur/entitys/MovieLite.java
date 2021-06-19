@@ -3,6 +3,8 @@ package com.moviepur.entitys;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,5 +25,6 @@ public class MovieLite {
 	private int id;
 	private String name,image_url;
 	private LocalDate releaseDate;
-	
+	@Enumerated(EnumType.STRING)
+	private Type type;
 }

@@ -21,6 +21,7 @@ import com.moviepur.entitys.Type;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.repository.FirebaseClassRepository;
 import com.moviepur.repository.MovieRepository;
+import com.moviepur.servies.BannerService;
 import com.moviepur.servies.FilmSeriesService;
 import com.moviepur.servies.MainService;
 import com.moviepur.servies.PrimeryKeySeqService;
@@ -46,6 +47,9 @@ public class MainServiceImpl implements MainService {
 	
 	@Autowired
 	private FirebaseClassRepository firebaseRepository;
+	
+	@Autowired
+	private BannerService bannerService;
 	
 	private static final String ADMINPASSWORD = "$2a$10$YST7qlq5oKVTSZv9/tSlrOaNnUy1Wc./dzmeC1Ung6XSnDx1bvij6";
 
@@ -109,6 +113,7 @@ public class MainServiceImpl implements MainService {
 			movie.setId(primeryKeySeqService.getCurrentPostion("MOVIETABLE"));
 			movie = movieRepository.save(movie);
 			sendFirebaseMessage("New "+movie.getType()+" Add", "New "+movie.getType()+" Add On Moviepur.\n"+movie.getName()+" is the "+movie.getIndustryName()+" "+movie.getType()+".",movie.getImage_url());
+			bannerService.bannerUpdate(false, movie.getImage_url());
 			return movie;
 		} catch (Exception e) {
 			throw new MoviepurException(500, e.getLocalizedMessage());

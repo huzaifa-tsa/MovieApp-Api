@@ -9,6 +9,7 @@ import com.moviepur.entitys.FilmSeries;
 import com.moviepur.exception.MoviepurException;
 import com.moviepur.repository.FilmSeriesRepository;
 import com.moviepur.servies.AllService;
+import com.moviepur.servies.BannerService;
 import com.moviepur.servies.FilmSeriesService;
 import com.moviepur.servies.PrimeryKeySeqService;
 
@@ -24,6 +25,9 @@ public class FilmSeriesServiceImpl implements FilmSeriesService{
 	@Autowired
 	private PrimeryKeySeqService primeryKeySeqService;
 	
+	@Autowired
+	private BannerService bannerService;
+	
 	@Override
 	public List<FilmSeries> getAll() {
 		return filmSeriesRepository.getAll();
@@ -37,7 +41,9 @@ public class FilmSeriesServiceImpl implements FilmSeriesService{
 	@Override
 	public FilmSeries add(FilmSeries filmSeries) {
 		filmSeries.setId(primeryKeySeqService.getCurrentPostion("FILMSERIESTABLE"));
-		return filmSeriesRepository.save(filmSeries);
+		 filmSeries =	filmSeriesRepository.save(filmSeries);
+		 bannerService.bannerUpdate(true, filmSeries.getImageUrl());
+		 return filmSeries;
 	}
 
 	@Override
