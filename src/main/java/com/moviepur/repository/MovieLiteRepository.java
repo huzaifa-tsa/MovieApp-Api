@@ -67,7 +67,7 @@ public interface MovieLiteRepository extends JpaRepository<MovieLite, Integer> {
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date,type FROM movie WHERE LOWER(genre) LIKE %:genre% And industry_name = :industryName ORDER BY id DESC" )
 	public List<MovieLite> getByGenreAndIndustryName(@Param("genre") String genre,@Param("industryName")  String industryName);
 
-	@Query(nativeQuery = true, value = "SELECT DISTINCT industry_name,type  FROM movie WHERE LOWER(genre) LIKE %:genre%" )
+	@Query(nativeQuery = true, value = "SELECT DISTINCT industry_name  FROM movie WHERE LOWER(genre) LIKE %:genre%" )
 	public Set<String> getAllIndustryByGenre(@Param("genre") String genre);
 	
 	@Query(nativeQuery = true, value = "SELECT id,name,image_url,release_date,type  FROM movie ORDER BY  RANDOM( )  LIMIT 3" )
